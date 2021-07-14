@@ -1,0 +1,14 @@
+
+
+
+
+    .header {
+        margin-bottom: 64px;
+    }
+
+
+@media only screen and (max-width: 600px) {
+    .header {
+        margin-bottom: 56px;
+    }
+  }
