@@ -8,6 +8,8 @@ import Button from '@material-ui/core/Button';
 import { useParams } from 'react-router';
 import DetailCard from './DetailCard';
 import BackButton from '../../components/BackButton';
+import DetailCreator from '../dialogs/details/DetailCreator';
+import { setIsOpen } from '../dialogs/details/detailCreator.slice';
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -52,15 +54,18 @@ const DetailView = () => {
     })
 
     return (
-        <div className={(classes.form, classes.detailViewContainer)}>
-            <div className={classes.detailViewHeader}>
-                <BackButton/>
-                <Button onClick={() => dispatch(toggleDetailAuthorIsOpen({trace: params.trace, type: 'create', detail: ''}))}>New Detail</Button>
+        <React.Fragment>
+            <DetailCreator trace={params.trace}/>
+            <div className={(classes.form, classes.detailViewContainer)}>
+                <div className={classes.detailViewHeader}>
+                    <BackButton/>
+                    <Button onClick={() => dispatch(setIsOpen(true))}>New Detail</Button>
+                </div>
+                <div className={classes.detailViewBody}>
+                    {mappedDetails }
+                </div>
             </div>
-            <div className={classes.detailViewBody}>
-                {mappedDetails }
-            </div>
-        </div>
+        </React.Fragment>
     )
 }
 

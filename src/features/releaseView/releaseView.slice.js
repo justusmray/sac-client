@@ -13,7 +13,7 @@ const initialState = {
 export const createReleaseAsync = createAsyncThunk(
     'releaseView/createRelease',
     async (data) => {
-        const release = await axios.post(`http://192.168.0.90:5000/release/`, data)
+        const release = await axios.post(`http://192.168.0.90:5000/api/releases/createRelease`, {release: data})
         
         return{
             release: release.data,
@@ -24,10 +24,10 @@ export const createReleaseAsync = createAsyncThunk(
 export const fetchReleasesAsync = createAsyncThunk(
     'releaseView/fetchReleases',
     async (data) => {
-        const releases = await axios.get(`http://192.168.0.90:5000/release/${data}`)
+        const result = await axios.get(`http://192.168.0.90:5000/api/releases/${data}/getReleases`)
         
         return{
-            releases: releases.data,
+            releases: result.data.releases,
         };
     }
 );

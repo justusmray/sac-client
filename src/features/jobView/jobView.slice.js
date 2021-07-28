@@ -12,22 +12,27 @@ const initialState = {
 
 export const createJobAsync = createAsyncThunk(
     'jobView/createJob',
-    async (data) => {
-        const job = await axios.post(`http://192.168.0.90:5000/job/`, data)
+    async (data, { rejectWithValue }) => {
+        try{
+
+            const job = await axios.post(`http://192.168.0.90:5000/api/jobs/createJob`, {job: data})
+            console.log(job)
+            return{
+                job: job.data,
+            };
+        }catch(error){
+            rejectWithValue(error.response.error)
+        }
         
-        return{
-            job: job.data,
-        };
     }
 );
 
 export const fetchJobsAsync = createAsyncThunk(
     'jobView/fetchjobs',
     async (data) => {
-        const jobs = await axios.get(`http://192.168.0.90:5000/job/`, data)
-        
+        const result = await axios.get(`http://192.168.0.90:5000/api/jobs/getJobs`)
         return{
-            jobs: jobs.data,
+            jobs: result.data.jobs,
         };
     }
 );
@@ -50,7 +55,9 @@ export const jobViewSlice = createSlice({
             
             .addCase(createJobAsync.fulfilled, (state, action) => {
                 state.status = 'needsUpdate';
-                state.jobs.push(action.payload.job);
+                console.log(state.jobs);
+                if(state.jobs){state.jobs.push(action.payload.job);}
+                
             
             })
             .addCase(fetchJobsAsync.fulfilled, (state, action) => {

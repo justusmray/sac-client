@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     status: 'standby',
-    error: {},
+    message: {},
 
   
 };
@@ -13,7 +13,7 @@ export const errorHandlerSlice = createSlice({
     reducers: {
         clearError: (state) => {
             state.status = 'standby'
-            state.error = {name: 'none'}
+            state.message = 'none'
         }
     },
     extraReducers:(builder) => {
@@ -23,13 +23,13 @@ export const errorHandlerSlice = createSlice({
             }, (state, action) => {
                 console.log(action)
                 state.status = 'error'
-                state.error = action.error
+                state.message = action.payload
             })
             .addMatcher((action) => {
                 return action.type.endsWith('fulfilled')
             }, (state) => {
                 state.status = 'standby'
-                state.error = {}
+                state.message = 'none'
             })
     }
 

@@ -15,11 +15,13 @@ import './App.css';
 import ReleaseView from './features/releaseView/ReleaseView';
 import DetailView from './features/detailView/DetailView';
 import WeldLength from './features/weldLength/WeldLength';
+import DetailCreator from './features/dialogs/details/DetailCreator';
 
 
 const App = () => {
     return(
         <React.Fragment>
+            <DetailCreator/>
             <DetailAuthorDialog/>
             <ReleaseAuthorDialog/>
             <JobAuthorDialog/>   

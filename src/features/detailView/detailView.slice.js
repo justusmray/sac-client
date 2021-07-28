@@ -9,11 +9,16 @@ const initialState = {
 export const createDetailAsync = createAsyncThunk(
     'detailView/createDetail',
     async (data) => {
-        const detail = await axios.post(`http://192.168.0.90:5000/detail/`, data)
+        try{
+            const detail = await axios.post(`http://192.168.0.90:5000/api/details/createDetail`, {detail: data})
+        }catch(error){
+            console.log(error.message);
+        }
         
-        return{ 
-            detail: detail.data,
-        };
+        
+        // return{ 
+        //     detail: detail.data,
+        // };
     }
 );
 
@@ -21,10 +26,10 @@ export const createDetailAsync = createAsyncThunk(
 export const fetchDetailsAsync = createAsyncThunk(
     'detailView/fetchReleases',
     async (data) => {
-        const details = await axios.get(`http://192.168.0.90:5000/detail/${data}`)
+        const results = await axios.get(`http://192.168.0.90:5000/api/details/${data}/getDetails`)
         
         return{
-            details: details.data,
+            details: results.data.details,
         };
     }
 );
@@ -47,13 +52,15 @@ export const detailViewSlice = createSlice({
                 state.details.push(action.payload.detail);
             
             })
+            .addCase(fetchDetailsAsync.pending, (state) => {
+                state.status = 'loading';
+            })
             .addCase(fetchDetailsAsync.fulfilled, (state, action) => {
                 state.status = 'idle';
                 state.details = action.payload.details;
-            
             })
-            .addMatcher(action => action.type.endsWith('pending'), (state) => {
-                state.status = 'loading';
+            .addMatcher(action => action.type === 'detailCreator/createDetail/fulfilled', (state) => {
+                state.status = 'needsUpdate';
             })
             
     }

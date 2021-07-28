@@ -87,10 +87,10 @@ const DetailAuthorDialog = (props) => {
     }, [detailName])
     useEffect(() => {
         (detailName && isOpen === true) && (
-            axios.get(`http://192.168.0.90:5000/part/${trace}-${detailName}`)
+            axios.get(`http://192.168.0.90:5000/api/parts/${trace}-${detailName}/getParts`)
             .then(response => {
                 console.log(response);
-                const tableData = response.data.map(part => {
+                const tableData = response.data.parts.map(part => {
                     return {
                         ...part,
                         isInDb: true
@@ -246,7 +246,6 @@ const DetailAuthorDialog = (props) => {
             
             <DialogContent>
                 <div>
-                    
                         <div item xs={4} className={classes.input}>
                             
                             {type === 'edit' ? 
